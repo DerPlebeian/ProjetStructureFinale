@@ -1,12 +1,16 @@
+from BLL.Model import Task
+import ctypes
+
+
 class Queue:
 
     def __init__(self, capacity: int):
         self.capacity = capacity
         self.front = 0
         self.rear = 0
-        self.items = []
+        self.items = Queue.build_array(capacity)
 
-    def enqueue(self, item):
+    def enqueue(self, item: Task):
         if self.capacity == self.rear:
             print("Queue is full")
             return
@@ -34,8 +38,6 @@ class Queue:
     def __len__(self):
         return self.rear
 
-    length = __len__()
-
     def peak(self):
         return self.items[self.front]
 
@@ -46,3 +48,7 @@ class Queue:
             if i < self.rear - 1:
                 to_return = to_return + ","
         return to_return + "]"
+
+    @staticmethod
+    def build_array(capacity):
+        return (capacity * ctypes.py_object)()
