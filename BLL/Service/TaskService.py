@@ -1,5 +1,4 @@
-from BLL.Model.Queue import Queue
-from BLL.Model.Task import Task
+from BLL.Model.Entities import Queue, Task
 
 
 def processQueue(queue: Queue):
