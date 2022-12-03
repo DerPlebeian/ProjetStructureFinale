@@ -1,16 +1,48 @@
-# This is a sample Python script.
+class Queue:
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.front = 0
+        self.rear = 0
+        self.items = []
 
+    def enqueue(self, item):
+        if self.capacity == self.rear:
+            print("Queue is full")
+            return
+        self.items[self.rear] = item
+        self.rear += 1
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    def dequeue(self):
+        if self.is_empty():
+            print("Queue is full")
+            return
+        to_return = self.items[self.front]
+        self.shift_left(self.front)
+        self.rear -= 1
+        return to_return
 
+    def shift_left(self, index):
+        for i in range(index, self.rear - 1):
+            self.items[i] = self.items[i + 1]
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    def is_empty(self):
+        if self.front == self.rear == 0:
+            return True
+        return False
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    def __len__(self):
+        return self.rear
+
+    length = __len__()
+
+    def peak(self):
+        return self.items[self.front]
+
+    def __str__(self):
+        to_return = "["
+        for i in range(self.rear):
+            to_return = to_return + str(self.items[i])
+            if i < self.rear - 1:
+                to_return = to_return + ","
+        return to_return + "]"
