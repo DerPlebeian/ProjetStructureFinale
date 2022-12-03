@@ -1,11 +1,22 @@
+import sys
+import time
+
 from BLL.Model.Queue import Queue
 from BLL.Model.Task import Task
 
 
 def processQueue(queue: Queue):
     for task in range(queue.rear):
-            print(queue.items[task].name)
-            print(queue.items[task].time)
+        print("==========================================================")
+        print("CURRENT TASK: '" + queue.items[task].name + "'")
+        for i in range(queue.items[task].time_frame + 1):
+            sys.stdout.write("\r" + "Remaining time: " + str(queue.items[task].time_frame + 1 -
+                                                             queue.items[task].time_executed) + " secs.")
+            sys.stdout.flush()
+            time.sleep(i)
+            queue.items[task].time_executed += 1
+        sys.stdout.write("\r" + "Task execution is over (5 seconds).")
+        print("\n==========================================================")
 
 
 task1 = Task("Task 1", 5, 1)
