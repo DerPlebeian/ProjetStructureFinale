@@ -54,7 +54,8 @@ class Queue:
 
 
 class Task:
-    def __init__(self, name, time, priority):
+    def __init__(self, name, time_frame, priority):
         self.name = name
-        self.time = time
+        self.time_frame = time_frame
+        self.time_executed = 0
         self.priority = priority
