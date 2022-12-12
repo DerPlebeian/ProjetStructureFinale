@@ -18,7 +18,7 @@ class Queue:
 
     def dequeue(self):
         if self.is_empty():
-            print("Queue is full")
+            print("Queue is empty")
             return
         to_return = self.items[self.front]
         self.shift_left(self.front)
@@ -45,7 +45,7 @@ class Queue:
         for i in range(self.rear):
             to_return = to_return + str(self.items[i])
             if i < self.rear - 1:
-                to_return = to_return + ","
+                to_return = to_return + "," + "\n"
         return to_return + "]"
 
     @staticmethod
@@ -79,8 +79,6 @@ class ArrayStack(object):
             return None
         return self.items[self.top]
 
-    top = peek()
-
     def is_empty(self):
         if self.top == -1:
             return True
@@ -105,3 +103,12 @@ class Task:
         self.time_frame = time_frame
         self.time_executed = 0
         self.priority = priority
+        self.poisson = 0
+
+    def __str__(self):
+        to_return = \
+            "[ID: " + str(self.id) + \
+            ", Priority:" + str(self.priority) + \
+            ", Time: " + str(self.time_executed) + "/" + str(self.time_frame) + \
+            ", Poisson: " + str(self.poisson)
+        return to_return + "]"
