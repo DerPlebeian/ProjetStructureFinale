@@ -7,7 +7,7 @@ class Queue:
         self.capacity = capacity
         self.front = 0
         self.rear = 0
-        self.items = Queue.build_array(capacity)
+        self.items = [0 for i in range(capacity)]
 
     def enqueue(self, item):
         if self.capacity == self.rear:
@@ -54,8 +54,8 @@ class Queue:
 
 
 class Task:
-    def __init__(self, name, time_frame, priority):
-        self.name = name
+    def __init__(self, id, time_frame, priority):
+        self.id = id
         self.time_frame = time_frame
         self.time_executed = 0
         self.priority = priority
