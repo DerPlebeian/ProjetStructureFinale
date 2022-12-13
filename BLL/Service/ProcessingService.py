@@ -61,8 +61,6 @@ def process(distribution):
                     if item.priority > current_task.priority:
                         waiting.enqueue(current_task)
                         current_task = item
-                    else:
-                        queue.enqueue(item)
                 else:
                     current_task = item
 

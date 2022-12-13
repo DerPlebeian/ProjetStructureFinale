@@ -3,12 +3,14 @@ import ctypes
 
 class Queue:
 
+    # Constructor
     def __init__(self, capacity: int):
         self.capacity = capacity
         self.front = 0
         self.rear = 0
         self.items = [0 for i in range(capacity)]
 
+    # Put an item in a queue
     def enqueue(self, item):
         if self.capacity == self.rear:
             print("Queue is full")
@@ -16,6 +18,7 @@ class Queue:
         self.items[self.rear] = item
         self.rear += 1
 
+    # Removes an item from the queue and returns it
     def dequeue(self):
         if self.is_empty():
             print("Queue is empty")
@@ -25,10 +28,12 @@ class Queue:
         self.rear -= 1
         return to_return
 
+    # Go an index to the left in the queue
     def shift_left(self, index):
         for i in range(index, self.rear - 1):
             self.items[i] = self.items[i + 1]
 
+    # Returns if the queue is empty
     def is_empty(self):
         if self.front == self.rear == 0:
             return True
@@ -37,6 +42,7 @@ class Queue:
     def __len__(self):
         return self.rear
 
+    # Check first item in queue
     def peak(self):
         return self.items[self.front]
 
@@ -51,50 +57,6 @@ class Queue:
     @staticmethod
     def build_array(capacity):
         return (capacity * ctypes.py_object)()
-
-
-class ArrayStack(object):
-
-    def __init__(self, capacity: int):
-        self.capacity = capacity
-        self.items = ArrayStack.build_array(self.capacity)
-        self.top = -1
-
-    def push(self, item):
-        if self.top >= self.capacity:
-            print("Error: Can not push item. Stack Overflow")
-        self.top += 1
-        self.items[self.top] = item
-
-    def pop(self):
-        if self.top < 0:
-            print("Error: Can not push item. Stack Underflow")
-            return None
-        self.top -= 1
-        return self.items[self.top + 1]
-
-    def peek(self):
-        if self.top < 0:
-            print("Error: Can not push item. Stack Overflow")
-            return None
-        return self.items[self.top]
-
-    def is_empty(self):
-        if self.top == -1:
-            return True
-        return False
-
-    @staticmethod
-    def build_array(capacity):
-        return (capacity * ctypes.py_object)()
-
-    def __str__(self):
-        to_return = "["
-        for i in range(self.top + 1):
-            to_return = to_return + str(self.items[i])
-            if i < self.top:
-                to_return = to_return + ","
-        return to_return + "]"
 
 
 class Task:
