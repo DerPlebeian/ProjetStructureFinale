@@ -64,6 +64,7 @@ class Task:
         self.id = id
         self.time_frame = time_frame
         self.time_executed = 0
+        self.queue_waiting_time = 0
         self.priority = priority
         self.poisson = 0
 
