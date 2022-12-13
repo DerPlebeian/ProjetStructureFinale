@@ -5,6 +5,9 @@ from BLL.Model.Entities import Queue, Task
 
 
 def process(distribution):
+    # Dictionary to know how much time task took in the CPU
+    dictionary = {}
+
     # [KPI 1] Define an array to get every poisson value
     total_intervals = []
 
@@ -34,11 +37,9 @@ def process(distribution):
     # Define a waiting stack
     waiting: Queue = Queue(10)
 
-    current_task = None
+    current_task: Task = None
 
-    execution_range = highest_poisson + sum(total_times)
-
-    for iteration in range(1000):
+    for iteration in range(120):
         # Print the current loop iteration.
         print("\nIteration " + str(iteration))
 
@@ -46,7 +47,7 @@ def process(distribution):
         for item in distribution:
             if item.poisson == iteration:
                 queue.enqueue(item)
-                check_queue_highestnb(queue, queue_highestnb)
+                queue_highestnb = check_queue_highestnb(queue, queue_highestnb)
 
         # Check if task added in higher priority than the current task
         if current_task is not None:
@@ -92,14 +93,23 @@ def process(distribution):
             else:
                 print('\033[1m' + "Current task is done. " + '\033[0m' + current_task.__str__())
                 queued_waiting_times(queue)
+                dictionary[current_task.id] = iteration
                 current_task = queue.dequeue()
 
         # For each iteration, sleep for one second
         time.sleep(1)
 
-    # Print all the KPIs
+
+    # Dictionary - See times
     print("\n==================================================================")
+    print('\033[1m' + "Task Dictionary: " + '\033[0m')
+    print(dictionary)
+
+    # Print all the KPIs
+    print("==================================================================")
     print('\033[1m' + "Key Performance Indicators: " + '\033[0m')
+
+
 
     # KPI 1 - Get the average interval
     average_intervals = round(sum(total_intervals) / len(total_intervals))
@@ -120,8 +130,8 @@ def process(distribution):
     print("[KPI 4] Highest number of items in queue: " + str(queue_highestnb))
 
     # KPI 5 - Get the probability of waiting
-    waiting_probability = expon.cdf(x=1000, scale=999)
-    print("[KPI 5] Probability of waiting: " + str(waiting_probability))
+    waiting_probability = expon.cdf(x=120, scale=10)
+    print("[KPI 5] Probability of waiting: " + (str(waiting_probability * 100)) + "%")
     print("==================================================================\n")
 
 
@@ -136,8 +146,9 @@ def give_exponential(task: Task):
 
 
 def check_queue_highestnb(queue, highestnb):
-    if (len(queue)) > highestnb:
+    if len(queue) > highestnb:
         highestnb = len(queue)
+    return highestnb
 
 
 def queued_waiting_times(queue):
