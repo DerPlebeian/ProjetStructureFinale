@@ -38,7 +38,7 @@ def process(distribution):
 
     execution_range = highest_poisson + sum(total_times)
 
-    for iteration in range(60):
+    for iteration in range(1000):
         # Print the current loop iteration.
         print("\nIteration " + str(iteration))
 
@@ -72,6 +72,7 @@ def process(distribution):
                     current_task = waiting.dequeue()
                     queued_waiting_times(queue)
                     print("Current task (from waiting stack): " + current_task.__str__())
+
         else:
             if not waiting.is_empty():
                 current_task = waiting.dequeue()

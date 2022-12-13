@@ -59,10 +59,16 @@ class Queue:
         return (capacity * ctypes.py_object)()
 
 
+AUTO_INCREMENT_ID = 0
+
+
 class Task:
-    def __init__(self, id, time_frame, priority):
-        self.id = id
-        self.time_frame = time_frame
+    AUTO_INCREMENT_ID = 0
+
+    def __init__(self, priority):
+        Task.AUTO_INCREMENT_ID += 1
+        self.id = Task.AUTO_INCREMENT_ID
+        self.time_frame = 0
         self.time_executed = 0
         self.queue_waiting_time = 0
         self.priority = priority

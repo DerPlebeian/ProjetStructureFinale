@@ -1,13 +1,15 @@
+import random
+
 from BLL.Model.Entities import *
 from BLL.Service.ProcessingService import process
 
 
 def main():
-    distribution = [
-        Task(101, 5, 1),
-        Task(102, 3, 5),
-        Task(103, 4, 3),
-        Task(104, 2, 9)]
+    distribution = []
+    task_qty = random.randint(5, 20)
+
+    for x in range(task_qty):
+        distribution.append(Task(priority=random.randint(1, 10)))
 
     process(distribution)
 
