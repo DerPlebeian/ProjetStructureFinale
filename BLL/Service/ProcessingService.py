@@ -1,6 +1,7 @@
 import time
 
 import numpy as np
+from scipy.stats import expon
 from BLL.Model.Entities import Queue, ArrayStack, Task
 
 
@@ -8,6 +9,7 @@ def process(distribution):
     # Assign a Poisson value for each task
     for item in distribution:
         item.poisson = get_poisson(len(distribution))
+        give_exponential(item)
         print(item.__str__())
 
     # Define a queue variable
@@ -18,15 +20,15 @@ def process(distribution):
 
     current_task = None
 
-    for i in range(1000):
+    for i in range(500):
         # Print the current loop iteration.
         print("\nIteration " + str(i))
 
         # Select a task in the queue. It is the one being processed.
-        #if not queue.is_empty():
+        # if not queue.is_empty():
         #    current_task: Task = queue.items[queue.front]
         #    print("Current task - " + str(current_task.id))
-        #else:
+        # else:
         #    current_task: Task = None
         ###
 
@@ -44,7 +46,6 @@ def process(distribution):
                         queue.enqueue(item)
                 else:
                     current_task = item
-
 
         # Print the queue
         print("QUEUE: " + str(len(queue)) + " items")
@@ -75,6 +76,12 @@ def process(distribution):
 
 def get_poisson(size):
     return np.random.poisson(size)
+
+
+def give_exponential(task: Task):
+    value = expon.rvs(scale=10, size=1)
+    task.time_frame = value.item().__round__()
+    return task
 
 
 def main():

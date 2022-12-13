@@ -2,6 +2,7 @@ import sys
 import time
 import os
 import random
+
 clear = lambda: os.system('cls')
 
 from BLL.Model.Entities import Queue, Task
@@ -10,7 +11,6 @@ queue = Queue(10)
 queue.enqueue(Task(id=0, priority=(random.randint(1, 10)), time_frame=(random.randint(5, 10))))
 currentTask: Task = queue.items[queue.rear]
 waiting_stack = []
-
 
 runningTask: Task = queue.items[queue.rear]
 while runningTask.id == currentTask.id:
@@ -29,7 +29,7 @@ while runningTask.id == currentTask.id:
 def main(queue, distribution):
     for i in range(30):
         time.sleep(random.randint(1, 3))
-        queue.enqueue(Task(id=i+1, priority=(random.randint(1, 10)), time_frame=(random.randint(5, 10))))
+        queue.enqueue(Task(id=i + 1, priority=(random.randint(1, 10)), time_frame=(random.randint(5, 10))))
 
 
 queue = Queue(10)
