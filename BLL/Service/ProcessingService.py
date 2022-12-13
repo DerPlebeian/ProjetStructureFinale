@@ -45,8 +45,10 @@ def process(distribution):
 
         # Check if a task needs to be added to the queue
         for item in distribution:
+            # If the poisson of the task equals the iteration, enqueue the item in the main queue
             if item.poisson == iteration:
                 queue.enqueue(item)
+                # KPI 4
                 queue_highestnb = check_queue_highestnb(queue, queue_highestnb)
 
         # Check if task added in higher priority than the current task
@@ -75,6 +77,7 @@ def process(distribution):
                     print("Current task (from waiting stack): " + current_task.__str__())
 
         else:
+            # If there is a task in the waiting queue, put it back in the main queue
             if not waiting.is_empty():
                 current_task = waiting.dequeue()
                 queued_waiting_times(queue)
@@ -93,12 +96,11 @@ def process(distribution):
             else:
                 print('\033[1m' + "Current task is done. " + '\033[0m' + current_task.__str__())
                 queued_waiting_times(queue)
-                dictionary[current_task.id] = iteration
+                dictionary[current_task.id] = iteration  # Add the time in dictionary
                 current_task = queue.dequeue()
 
         # For each iteration, sleep for one second
         time.sleep(1)
-
 
     # Dictionary - See times
     print("\n==================================================================")
@@ -108,8 +110,6 @@ def process(distribution):
     # Print all the KPIs
     print("==================================================================")
     print('\033[1m' + "Key Performance Indicators: " + '\033[0m')
-
-
 
     # KPI 1 - Get the average interval
     average_intervals = round(sum(total_intervals) / len(total_intervals))
@@ -135,22 +135,26 @@ def process(distribution):
     print("==================================================================\n")
 
 
+# Gives the poisson value to a task using a poisson formula
 def get_poisson(size):
     return np.random.poisson(size)
 
 
+# Gives the time to a task using an exponential formula
 def give_exponential(task: Task):
     value = expon.rvs(scale=10, size=1)
     task.time_frame = value.item().__round__()
     return task
 
 
+# Checks the maximum tasks that were in the main queue
 def check_queue_highestnb(queue, highestnb):
     if len(queue) > highestnb:
         highestnb = len(queue)
     return highestnb
 
 
+# Checks how long the tasks were queued
 def queued_waiting_times(queue):
     if not queue.is_empty():
         for i in range(len(queue)):
