@@ -1,16 +1,36 @@
 import time
-
 import numpy as np
 from scipy.stats import expon
 from BLL.Model.Entities import Queue, ArrayStack, Task
 
 
 def process(distribution):
+    # [KPI 1] Define an array to get every poisson value
+    total_intervals = []
+
+    # [KPI 2] Define an array to collect every task times
+    total_times = []
+
     # Assign a Poisson value for each task
     for item in distribution:
         item.poisson = get_poisson(len(distribution))
+        # Add that poisson value to the array previously defined
+        total_intervals.append(item.poisson)
+        total_times.append(item.time_frame)
         give_exponential(item)
         print(item.__str__())
+
+    # KPI 1 - Get the average interval
+    average_intervals = round(sum(total_intervals) / len(total_intervals))
+    print("[KPI 1] Average interval: " + str(average_intervals))
+
+    # KPI 2 - Get the average task time frame
+    average_times = round(sum(total_times) / len(total_times))
+    print("[KPI 2] Average task time frame: " + str(average_times))
+
+    # KPI 5 - Get the probability of waiting
+    waiting_probability = round(sum(expon.cdf(x=1000, scale=10)))
+    print("[KPI 5] Probability of waiting: " + str(waiting_probability))
 
     # Define a queue variable
     queue = Queue(10)
@@ -20,7 +40,7 @@ def process(distribution):
 
     current_task = None
 
-    for i in range(500):
+    for i in range(1000):
         # Print the current loop iteration.
         print("\nIteration " + str(i))
 
@@ -30,7 +50,6 @@ def process(distribution):
         #    print("Current task - " + str(current_task.id))
         # else:
         #    current_task: Task = None
-        ###
 
         # Check if a task needs to be added to the queue
         for item in distribution:
